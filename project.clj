@@ -1,14 +1,17 @@
-(defproject garden "1.2.6-SNAPSHOT"
+(defproject garden "2.0.0-SNAPSHOT"
   :description "Generate CSS from Clojure data structures."
   :url "https://github.com/noprompt/garden"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :source-paths
-  ["src/clj" "target/generated-src/clj" "target/generated-src/cljs"]
+  ["src/clj"
+   "target/generated-src/clj"
+   "target/generated-src/cljs"]
 
   :test-paths
-  ["test" "target/generated-test"]
+  ["test"
+   "target/generated-test"]
 
   :dependencies
   [[org.clojure/clojure "1.6.0"]
@@ -18,7 +21,9 @@
   {:dev {:dependencies
          [[criterium "0.4.1"]
           [org.clojure/clojurescript "0.0-2342"]
-          [com.cemerick/piggieback "0.1.2"]]
+          [com.cemerick/piggieback "0.1.2"]
+          [garden/garden-color "0.1.0-SNAPSHOT"]
+          [garden/garden-units "0.1.0-SNAPSHOT"]]
 
          :plugins
          [[com.cemerick/austin "0.1.3"]
