@@ -66,6 +66,98 @@
   (u/+ a b))
 
 
+;;; garden.color.RGB
+
+(defmethod add [RGB]
+  [a]
+  (c/+ a))
+
+(defmethod add [RGB RGB]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [RGB RGB]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [RGB Number]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [Number RGB]
+  [a b]
+  (c/+ a b))
+
+
+;;; garden.color.RGBA
+
+(defmethod add [RGBA]
+  [a]
+  (c/+ a))
+
+(defmethod add [RGBA RGBA]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [RGBA RGBA]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [RGBA Number]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [Number RGBA]
+  [a b]
+  (c/+ a b))
+
+
+;;; garden.color.HSL
+
+(defmethod add [HSL]
+  [a]
+  (c/+ a))
+
+(defmethod add [HSL HSL]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [HSL HSL]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [HSL Number]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [Number HSL]
+  [a b]
+  (c/+ a b))
+
+
+;;; garden.color.HSLA
+
+(defmethod add [HSLA]
+  [a]
+  (c/+ a))
+
+(defmethod add [HSLA HSLA]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [HSLA HSLA]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [HSLA Number]
+  [a b]
+  (c/+ a b))
+
+(defmethod add [Number HSLA]
+  [a b]
+  (c/+ a b))
+
+
 ;; ---------------------------------------------------------------------
 ;; Subtraction
 
@@ -90,19 +182,111 @@
 
 (defmethod subtract [Unit]
   [a]
-  (u/- a))
+  (c/- a))
 
 (defmethod subtract [Unit Unit]
   [a b]
-  (u/- a b))
+  (c/- a b))
 
 (defmethod subtract [Unit Number]
   [a b]
-  (u/- a b))
+  (c/- a b))
 
 (defmethod subtract [Number Unit]
   [a b]
-  (u/- a b))
+  (c/- a b))
+
+
+;;; garden.color.RGB
+
+(defmethod subtract [RGB]
+  [a]
+  (c/- a))
+
+(defmethod subtract [RGB RGB]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [RGB RGB]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [RGB Number]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [Number RGB]
+  [a b]
+  (c/- a b))
+
+
+;;; garden.color.RGBA
+
+(defmethod subtract [RGBA]
+  [a]
+  (c/- a))
+
+(defmethod subtract [RGBA RGBA]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [RGBA RGBA]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [RGBA Number]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [Number RGBA]
+  [a b]
+  (c/- a b))
+
+
+;;; garden.color.HSL
+
+(defmethod subtract [HSL]
+  [a]
+  (c/- a))
+
+(defmethod subtract [HSL HSL]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [HSL HSL]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [HSL Number]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [Number HSL]
+  [a b]
+  (c/- a b))
+
+
+;;; garden.color.HSLA
+
+(defmethod subtract [HSLA]
+  [a]
+  (c/- a))
+
+(defmethod subtract [HSLA HSLA]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [HSLA HSLA]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [HSLA Number]
+  [a b]
+  (c/- a b))
+
+(defmethod subtract [Number HSLA]
+  [a b]
+  (c/- a b))
 
 
 ;; ---------------------------------------------------------------------
@@ -148,6 +332,98 @@
   (u/* a b))
 
 
+;;; garden.color.RGB
+
+(defmethod multiply [RGB]
+  [a]
+  (c/* a))
+
+(defmethod multiply [RGB RGB]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [RGB RGB]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [RGB Number]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [Number RGB]
+  [a b]
+  (c/* a b))
+
+
+;;; garden.color.RGBA
+
+(defmethod multiply [RGBA]
+  [a]
+  (c/* a))
+
+(defmethod multiply [RGBA RGBA]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [RGBA RGBA]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [RGBA Number]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [Number RGBA]
+  [a b]
+  (c/* a b))
+
+
+;;; garden.color.HSL
+
+(defmethod multiply [HSL]
+  [a]
+  (c/* a))
+
+(defmethod multiply [HSL HSL]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [HSL HSL]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [HSL Number]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [Number HSL]
+  [a b]
+  (c/* a b))
+
+
+;;; garden.color.HSLA
+
+(defmethod multiply [HSLA]
+  [a]
+  (c/* a))
+
+(defmethod multiply [HSLA HSLA]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [HSLA HSLA]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [HSLA Number]
+  [a b]
+  (c/* a b))
+
+(defmethod multiply [Number HSLA]
+  [a b]
+  (c/* a b))
+
+
 ;; ---------------------------------------------------------------------
 ;; Division
 
@@ -189,6 +465,98 @@
 (defmethod divide [Number Unit]
   [a b]
   (u// a b))
+
+
+;;; garden.color.RGB
+
+(defmethod divide [RGB]
+  [a]
+  (c// a))
+
+(defmethod divide [RGB RGB]
+  [a b]
+  (c// a b))
+
+(defmethod divide [RGB RGB]
+  [a b]
+  (c// a b))
+
+(defmethod divide [RGB Number]
+  [a b]
+  (c// a b))
+
+(defmethod divide [Number RGB]
+  [a b]
+  (c// a b))
+
+
+;;; garden.color.RGBA
+
+(defmethod divide [RGBA]
+  [a]
+  (c// a))
+
+(defmethod divide [RGBA RGBA]
+  [a b]
+  (c// a b))
+
+(defmethod divide [RGBA RGBA]
+  [a b]
+  (c// a b))
+
+(defmethod divide [RGBA Number]
+  [a b]
+  (c// a b))
+
+(defmethod divide [Number RGBA]
+  [a b]
+  (c// a b))
+
+
+;;; garden.color.HSL
+
+(defmethod divide [HSL]
+  [a]
+  (c// a))
+
+(defmethod divide [HSL HSL]
+  [a b]
+  (c// a b))
+
+(defmethod divide [HSL HSL]
+  [a b]
+  (c// a b))
+
+(defmethod divide [HSL Number]
+  [a b]
+  (c// a b))
+
+(defmethod divide [Number HSL]
+  [a b]
+  (c// a b))
+
+
+;;; garden.color.HSLA
+
+(defmethod divide [HSLA]
+  [a]
+  (c// a))
+
+(defmethod divide [HSLA HSLA]
+  [a b]
+  (c// a b))
+
+(defmethod divide [HSLA HSLA]
+  [a b]
+  (c// a b))
+
+(defmethod divide [HSLA Number]
+  [a b]
+  (c// a b))
+
+(defmethod divide [Number HSLA]
+  [a b]
+  (c// a b))
 
 
 ;; ---------------------------------------------------------------------
