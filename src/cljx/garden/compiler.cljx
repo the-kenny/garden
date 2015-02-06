@@ -40,6 +40,9 @@
    :vendors []
    ;; A set of properties to automatically prefix with `:vendors`.
    :auto-prefix #{}
+   ;; A map of property -> value-set to automatically declare values
+   ;; with :vendors
+   :auto-value-prefix {}
    ;; `@media-query` specific configuration.
    :media-expressions {;; May either be `:merge` or `:default`. When
                        ;; set to `:merge` nested media queries will
@@ -96,6 +99,16 @@
 (defn- auto-prefix?
   [property]
   (contains? (auto-prefixed-properties) property))
+
+(defn- auto-prefixed-values []
+  (let [m (:auto-value-prefix *flags*)]
+    (zipmap (map name (keys m))
+            (map #(set (map name %)) (vals m)))))
+
+(defn- auto-value-prefix?
+  [property value]
+  (contains? (get (auto-prefixed-values) property)
+             value))
 
 (defn- top-level-expression? [x]
   (or (util/rule? x)
@@ -419,38 +432,48 @@
       (util/as-str prop colon val semicolon))))
 
 (defn- prefix-pv [vendor [p v]]
-  (let [p (if vendor
-            (util/vendor-prefix vendor (name p))
-            (name p))]
+  (let [p (if (= ::none vendor)
+            (name p)
+            (util/vendor-prefix vendor (name p)))]
     [p v]))
 
-(defn- prefix-all-properties
-  "Add prefixes to all blocks in `declaration` using
-   vendor prefixes in `vendors`."
-  [vendors declaration]
+(defn- prefix-all-properties [vendors declaration]
   (for [[p v] declaration
-        vendor (cons nil vendors)]
+        vendor vendors]
     (prefix-pv vendor [p v])))
 
-(defn- prefix-auto-properties
-  "Add prefixes to all blocks in `declaration` when property
-   is in the `:auto-prefix` set."
-  [vendors declaration]
+(defn- prefix-auto-properties [vendors declaration]
+  (flush)
   (for [[p v] declaration
-        vendor (cons nil vendors)
-        :when (or (nil? vendor)
+        vendor vendors
+        :when (or (= ::none vendor)
                   (auto-prefix? (name p)))]
     (prefix-pv vendor [p v])))
 
+(defn- prefix-auto-values [vendors declaration]
+  (for [[p v] declaration
+        vendor vendors
+        :when (or (= ::none vendor)
+                  (auto-value-prefix? (name p) (name v)))]
+    (let [v (if-not (= ::none vendor)
+              (util/vendor-prefix vendor (name v))
+              v)]
+      [p v])))
+
 (defn- prefix-declaration
-  "Prefix properties within a `declaration` if `{:prefix true}` is
-   set in its meta, or if a property is in the `:auto-prefix` set."
+  "Prefix properties within a `declaration` if `{:prefix true}` is set
+  in its meta, or if a property is in the `:auto-prefix` set. Also
+  prefixes values if :auto-value-prefix matches."
   [declaration]
-  (let [vendors (or (:vendors (meta declaration)) (vendors))
+  (let [vendors (cons ::none
+                      (or (:vendors (meta declaration))
+                          (vendors)))
         prefix-fn (if (:prefix (meta declaration))
                     prefix-all-properties
-                    prefix-auto-properties)]
+                    prefix-auto-properties)
+        value-fn prefix-auto-values]
     (->> declaration
+         (value-fn vendors)
          (prefix-fn vendors))))
 
 (defn- render-declaration
