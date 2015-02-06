@@ -418,35 +418,29 @@
                 (render-value val))]
       (util/as-str prop colon val semicolon))))
 
-(defn- add-blocks
-  "For each block in `declaration`, add sequence of blocks
-   returned from calling `f` on the block."
-  [f declaration]
-  (mapcat #(cons % (f %)) declaration))
-
-(defn- prefixed-blocks
-  "Sequence of blocks with their properties prefixed by
-   each vendor in `vendors`."
-  [vendors [p v]]
-  (for [vendor vendors]
-    [(util/vendor-prefix vendor (name p)) v]))
+(defn- prefix-pv [vendor [p v]]
+  (let [p (if vendor
+            (util/vendor-prefix vendor (name p))
+            (name p))]
+    [p v]))
 
 (defn- prefix-all-properties
   "Add prefixes to all blocks in `declaration` using
    vendor prefixes in `vendors`."
   [vendors declaration]
-  (add-blocks (partial prefixed-blocks vendors) declaration))
+  (for [[p v] declaration
+        vendor (cons nil vendors)]
+    (prefix-pv vendor [p v])))
 
 (defn- prefix-auto-properties
   "Add prefixes to all blocks in `declaration` when property
    is in the `:auto-prefix` set."
   [vendors declaration]
-  (add-blocks
-   (fn [block]
-     (let [[p _] block]
-       (when (auto-prefix? (name p))
-         (prefixed-blocks vendors block))))
-   declaration))
+  (for [[p v] declaration
+        vendor (cons nil vendors)
+        :when (or (nil? vendor)
+                  (auto-prefix? (name p)))]
+    (prefix-pv vendor [p v])))
 
 (defn- prefix-declaration
   "Prefix properties within a `declaration` if `{:prefix true}` is
@@ -456,7 +450,8 @@
         prefix-fn (if (:prefix (meta declaration))
                     prefix-all-properties
                     prefix-auto-properties)]
-    (prefix-fn vendors declaration)))
+    (->> declaration
+         (prefix-fn vendors))))
 
 (defn- render-declaration
   [declaration]
