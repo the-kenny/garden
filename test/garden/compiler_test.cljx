@@ -206,6 +206,28 @@
       (is (not (re-find #"-moz-c:1" compiled)))
       (is (not (re-find #"-webkit-c:1" compiled)))))
 
+  (testing ":auto-value-prefix"
+    (is (compile= [:a {:display :flex}]
+                  "a{display:flex;display:-moz-flex;display:-webkit-flex}"
+                  :vendors test-vendors
+                  :pretty-print? false
+                  :auto-value-prefix {:display #{:flex}}))
+    
+    ;; Check every combination of string/keyword/symbol
+    (doseq [flex ((juxt str keyword symbol) "flex")
+            flex* ((juxt str keyword symbol) "flex")]
+      (is (compile= [:a {:display flex}]
+                    "a{display:flex;display:-moz-flex;display:-webkit-flex}"
+                    :vendors test-vendors
+                    :pretty-print? false
+                    :auto-value-prefix {:display #{flex*}})))
+    
+    (is (compile= [:a ^:prefix {:display :flex}]
+                  "a{display:flex;-moz-display:flex;display:-moz-flex;-moz-display:-moz-flex}"
+                  :vendors ["moz"]
+                  :pretty-print? false
+                  :auto-value-prefix {:display #{:flex}})))
+
   (testing ":media-expressions :nesting-behavior"
     (let [compiled (compile-css
                     {:media-expressions {:nesting-behavior :merge}

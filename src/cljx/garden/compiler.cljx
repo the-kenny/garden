@@ -107,8 +107,13 @@
 
 (defn- auto-value-prefix?
   [property value]
-  (contains? (get (auto-prefixed-values) property)
-             value))
+  (let [value (cond
+                (string? value) value
+                (keyword? value) (name value)
+                (symbol? value) (name value)
+                true value)]
+   (contains? (get (auto-prefixed-values) property)
+              value)))
 
 (defn- top-level-expression? [x]
   (or (util/rule? x)
@@ -454,7 +459,7 @@
   (for [[p v] declaration
         vendor vendors
         :when (or (= ::none vendor)
-                  (auto-value-prefix? (name p) (name v)))]
+                  (auto-value-prefix? (name p) v))]
     (let [v (if-not (= ::none vendor)
               (util/vendor-prefix vendor (name v))
               v)]
